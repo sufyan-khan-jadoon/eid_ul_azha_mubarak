@@ -8,6 +8,7 @@ import QuoteSection from "@/components/QuoteSection";
 import EidMessage from "@/components/EidMessage";
 import MouseGlow from "@/components/MouseGlow";
 import Footer from "@/components/Footer";
+import MoonBackground from "@/components/MoonBackground";
 
 const Scene3D = lazy(() => import("@/components/Scene3D"));
 
@@ -21,6 +22,19 @@ export default function Home() {
 
       {/* Mouse glow effect */}
       <MouseGlow />
+
+      {/* Real moon photograph background */}
+      <AnimatePresence>
+        {loaded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2.5 }}
+          >
+            <MoonBackground />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 3D Background Scene */}
       <AnimatePresence>

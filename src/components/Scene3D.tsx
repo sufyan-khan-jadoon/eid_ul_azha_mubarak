@@ -2,140 +2,8 @@
 
 import { useRef, useMemo, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Stars } from "@react-three/drei";
+import { Stars } from "@react-three/drei";
 import * as THREE from "three";
-
-/* ───── Realistic Moon ───── */
-function RealisticMoon() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-
-  // Procedural moon texture
-  const moonTexture = useMemo(() => {
-    const size = 512;
-    const canvas = document.createElement("canvas");
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext("2d")!;
-
-    // Base lunar surface color
-    const baseGrad = ctx.createRadialGradient(
-      size * 0.45, size * 0.42, 0,
-      size * 0.5, size * 0.5, size * 0.5
-    );
-    baseGrad.addColorStop(0, "#e8e4dc");
-    baseGrad.addColorStop(0.3, "#d6d0c4");
-    baseGrad.addColorStop(0.6, "#c4bdb0");
-    baseGrad.addColorStop(0.85, "#a89f90");
-    baseGrad.addColorStop(1, "#706860");
-    ctx.fillStyle = baseGrad;
-    ctx.fillRect(0, 0, size, size);
-
-    // Add craters (dark maria)
-    const craters = [
-      { x: 0.35, y: 0.3, r: 0.12, opacity: 0.15 },
-      { x: 0.55, y: 0.45, r: 0.08, opacity: 0.12 },
-      { x: 0.4, y: 0.55, r: 0.1, opacity: 0.1 },
-      { x: 0.6, y: 0.3, r: 0.06, opacity: 0.13 },
-      { x: 0.3, y: 0.65, r: 0.07, opacity: 0.11 },
-      { x: 0.5, y: 0.2, r: 0.05, opacity: 0.09 },
-      { x: 0.65, y: 0.6, r: 0.09, opacity: 0.14 },
-      { x: 0.25, y: 0.45, r: 0.06, opacity: 0.1 },
-      { x: 0.7, y: 0.45, r: 0.04, opacity: 0.08 },
-      { x: 0.45, y: 0.7, r: 0.05, opacity: 0.1 },
-    ];
-
-    for (const c of craters) {
-      const grad = ctx.createRadialGradient(
-        c.x * size, c.y * size, 0,
-        c.x * size, c.y * size, c.r * size
-      );
-      grad.addColorStop(0, `rgba(80, 70, 60, ${c.opacity})`);
-      grad.addColorStop(0.6, `rgba(90, 80, 70, ${c.opacity * 0.6})`);
-      grad.addColorStop(1, "transparent");
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, size, size);
-    }
-
-    // Small craters for texture
-    for (let i = 0; i < 60; i++) {
-      const cx = Math.random() * size;
-      const cy = Math.random() * size;
-      const cr = Math.random() * 8 + 2;
-      const dist = Math.sqrt((cx - size / 2) ** 2 + (cy - size / 2) ** 2);
-      if (dist > size * 0.48) continue;
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${70 + Math.random() * 40}, ${65 + Math.random() * 35}, ${55 + Math.random() * 30}, ${0.08 + Math.random() * 0.1})`;
-      ctx.fill();
-    }
-
-    // Subtle terminator shadow (makes it look like a slightly gibbous moon)
-    const termGrad = ctx.createLinearGradient(size * 0.7, 0, size, 0);
-    termGrad.addColorStop(0, "transparent");
-    termGrad.addColorStop(0.5, "rgba(20, 18, 15, 0.15)");
-    termGrad.addColorStop(1, "rgba(10, 8, 5, 0.4)");
-    ctx.fillStyle = termGrad;
-    ctx.fillRect(0, 0, size, size);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }, []);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y =
-        state.clock.elapsedTime * 0.02 + 0.5;
-      meshRef.current.position.y =
-        3 + Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-    }
-    if (glowRef.current) {
-      glowRef.current.position.y =
-        3 + Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={0.8} rotationIntensity={0.05} floatIntensity={0.2}>
-      <group position={[2, 3, -5]}>
-        {/* Moon sphere */}
-        <mesh ref={meshRef}>
-          <sphereGeometry args={[1.6, 64, 64]} />
-          <meshStandardMaterial
-            map={moonTexture}
-            emissive="#c8bfa8"
-            emissiveIntensity={0.08}
-            roughness={0.9}
-            metalness={0}
-          />
-        </mesh>
-
-        {/* Soft lunar glow ring */}
-        <mesh ref={glowRef} scale={[2.2, 2.2, 1]}>
-          <circleGeometry args={[1.6, 64]} />
-          <meshBasicMaterial
-            color="#d4cfc0"
-            transparent
-            opacity={0.06}
-            side={THREE.DoubleSide}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-          />
-        </mesh>
-
-        {/* Moonlight */}
-        <pointLight
-          position={[0, 0, 2]}
-          color="#e0d8c8"
-          intensity={1.5}
-          distance={12}
-        />
-      </group>
-    </Float>
-  );
-}
 
 /* ───── Star / small accent ───── */
 function StarAccent({ position }: { position: [number, number, number] }) {
@@ -307,10 +175,7 @@ export default function Scene3D() {
         {/* Camera rig */}
         <CameraRig />
 
-        {/* Realistic Moon */}
-        <RealisticMoon />
-
-        {/* Star accents near moon */}
+        {/* Star accents */}
         <StarAccent position={[4.2, 4, -4]} />
         <StarAccent position={[0.5, 3.8, -5]} />
         <StarAccent position={[-1.5, 3.5, -6]} />
