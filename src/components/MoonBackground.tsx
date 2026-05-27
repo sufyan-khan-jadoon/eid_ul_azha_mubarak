@@ -20,27 +20,27 @@ export default function MoonBackground() {
 
   return (
     <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
-      {/* Moon image — positioned upper right, parallax reactive */}
+      {/* Moon image — top center, fully blended */}
       <motion.div
-        className="absolute"
+        className="absolute left-1/2"
         style={{
-          top: "-5%",
-          right: "-8%",
-          width: "clamp(350px, 45vw, 700px)",
-          height: "clamp(525px, 67vw, 1050px)",
-          transform: `translate(${mouse.x * -15}px, ${mouse.y * -10}px)`,
+          top: "-12%",
+          width: "clamp(400px, 50vw, 800px)",
+          height: "clamp(600px, 75vw, 1200px)",
+          marginLeft: "calc(-1 * clamp(200px, 25vw, 400px))",
+          transform: `translate(${mouse.x * -10}px, ${mouse.y * -8}px)`,
           transition: "transform 0.3s ease-out",
         }}
-        initial={{ opacity: 0, scale: 1.1 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2, ease: "easeOut" }}
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 2.5, ease: "easeOut" }}
       >
         {/* Soft lunar glow behind the moon */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[45%] rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[40%] rounded-full blur-[80px]"
           style={{
             background:
-              "radial-gradient(circle, rgba(200, 195, 180, 0.12) 0%, rgba(200, 195, 180, 0.04) 50%, transparent 70%)",
+              "radial-gradient(circle, rgba(200, 195, 180, 0.15) 0%, rgba(200, 195, 180, 0.05) 40%, transparent 70%)",
           }}
         />
 
@@ -51,17 +51,17 @@ export default function MoonBackground() {
           fill
           className="object-contain"
           style={{ mixBlendMode: "lighten" }}
-          sizes="(max-width: 768px) 350px, 45vw"
+          sizes="(max-width: 768px) 400px, 50vw"
           priority
         />
       </motion.div>
 
-      {/* Subtle animated moonlight wash on the scene */}
+      {/* Centered moonlight wash */}
       <motion.div
-        className="absolute top-0 right-0 w-[50%] h-[60%]"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[50%]"
         style={{
           background:
-            "radial-gradient(ellipse at 80% 20%, rgba(200, 195, 180, 0.03) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 50% 20%, rgba(200, 195, 180, 0.04) 0%, transparent 60%)",
         }}
         animate={{
           opacity: [0.6, 1, 0.6],
