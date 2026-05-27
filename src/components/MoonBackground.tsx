@@ -46,11 +46,10 @@ export default function MoonBackground() {
 
         {/* The real moon photograph */}
         <Image
-          src="/moon.jpg"
+          src="/moon.png"
           alt="Crescent Moon"
           fill
           className="object-contain"
-          style={{ mixBlendMode: "lighten" }}
           sizes="(max-width: 768px) 400px, 50vw"
           priority
         />
