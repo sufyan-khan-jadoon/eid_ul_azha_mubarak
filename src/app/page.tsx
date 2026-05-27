@@ -1,65 +1,103 @@
-import Image from "next/image";
+"use client";
+
+import { useState, lazy, Suspense } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import CinematicLoader from "@/components/CinematicLoader";
+import HeroSection from "@/components/HeroSection";
+import QuoteSection from "@/components/QuoteSection";
+import EidMessage from "@/components/EidMessage";
+import MouseGlow from "@/components/MouseGlow";
+import Footer from "@/components/Footer";
+
+const Scene3D = lazy(() => import("@/components/Scene3D"));
 
 export default function Home() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      {/* Cinematic Loader */}
+      <CinematicLoader onComplete={() => setLoaded(true)} />
+
+      {/* Mouse glow effect */}
+      <MouseGlow />
+
+      {/* 3D Background Scene */}
+      <AnimatePresence>
+        {loaded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Suspense fallback={null}>
+              <Scene3D />
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main content */}
+      <AnimatePresence>
+        {loaded && (
+          <motion.main
+            className="relative z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.3 }}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            {/* Cinematic top gradient */}
+            <div className="fixed top-0 left-0 right-0 h-32 z-20 pointer-events-none bg-gradient-to-b from-[#050505] to-transparent" />
+
+            {/* Hero */}
+            <HeroSection />
+
+            {/* Decorative separator */}
+            <div className="relative z-10 flex justify-center py-4">
+              <motion.div
+                className="flex items-center gap-6"
+                initial={{ opacity: 0, scaleX: 0 }}
+                whileInView={{ opacity: 1, scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+              >
+                <div className="h-[1px] w-24 bg-gradient-to-r from-transparent to-gold/20" />
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  className="text-gold/30"
+                >
+                  <rect
+                    x="3"
+                    y="3"
+                    width="6"
+                    height="6"
+                    transform="rotate(45 6 6)"
+                    fill="currentColor"
+                  />
+                </svg>
+                <div className="h-[1px] w-24 bg-gradient-to-l from-transparent to-gold/20" />
+              </motion.div>
+            </div>
+
+            {/* Quranic Quote */}
+            <QuoteSection />
+
+            {/* Eid Message & Blessings */}
+            <EidMessage />
+
+            {/* Footer */}
+            <Footer />
+
+            {/* Cinematic bottom gradient */}
+            <div className="fixed bottom-0 left-0 right-0 h-24 z-20 pointer-events-none bg-gradient-to-t from-[#050505] to-transparent" />
+          </motion.main>
+        )}
+      </AnimatePresence>
+
+      {/* Full-screen vignette */}
+      <div className="fixed inset-0 pointer-events-none z-30 vignette" />
+    </>
   );
 }
