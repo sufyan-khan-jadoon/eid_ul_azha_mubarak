@@ -30,15 +30,6 @@ export default function EidMessage() {
       ref={sectionRef}
       className="relative z-10 py-32 px-4 overflow-hidden"
     >
-      {/* Background atmospheric glow */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(6,78,59,0.15) 0%, transparent 70%)",
-        }}
-      />
-
       <div className="max-w-4xl mx-auto text-center">
         {/* Decorative top */}
         <motion.div
@@ -47,9 +38,9 @@ export default function EidMessage() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1 }}
         >
-          <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gold/30" />
-          <IslamicStar className="w-4 h-4 text-gold/40" />
-          <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gold/30" />
+          <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gold/50" />
+          <IslamicStar className="w-4 h-4 text-gold/60" />
+          <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gold/50" />
         </motion.div>
 
         {/* Arabic-style "Eid Mubarak" ornamental */}
@@ -59,14 +50,14 @@ export default function EidMessage() {
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <p className="text-gold/50 text-lg tracking-[0.5em] uppercase font-light">
+          <p className="text-gold text-xl tracking-[0.5em] uppercase font-medium">
             عيد الأضحى مبارك
           </p>
         </motion.div>
 
         {/* Main message */}
         <motion.h2
-          className="font-serif text-3xl sm:text-4xl md:text-5xl text-gold-gradient text-glow leading-tight mb-8"
+          className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-gold-gradient text-glow leading-tight mb-8"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -78,7 +69,7 @@ export default function EidMessage() {
 
         {/* Subtitle */}
         <motion.p
-          className="text-moonlight/50 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-16"
+          className="text-moonlight/80 text-base sm:text-lg font-medium max-w-2xl mx-auto leading-relaxed mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -93,13 +84,13 @@ export default function EidMessage() {
           {blessings.map((blessing, i) => (
             <motion.div
               key={i}
-              className="glass rounded-xl p-5 group hover:border-gold/20 transition-all duration-500"
+              className="glass rounded-xl p-6 group hover:border-gold/30 transition-all duration-500"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.8 + i * 0.15 }}
               whileHover={{ scale: 1.02, y: -2 }}
             >
-              <p className="text-moonlight/70 text-sm sm:text-base font-light tracking-wide group-hover:text-gold/80 transition-colors duration-500">
+              <p className="text-moonlight text-sm sm:text-base font-semibold tracking-wide group-hover:text-gold transition-colors duration-500">
                 {blessing}
               </p>
             </motion.div>
@@ -113,11 +104,11 @@ export default function EidMessage() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.4 }}
         >
-          <div className="h-[1px] w-16 mx-auto bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-          <p className="text-moonlight/40 text-sm tracking-[0.3em] uppercase">
+          <div className="h-[1px] w-16 mx-auto bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+          <p className="text-moonlight/70 text-sm font-semibold tracking-[0.3em] uppercase">
             With love & prayers
           </p>
-          <p className="font-serif text-2xl sm:text-3xl text-gold-gradient">
+          <p className="font-serif text-2xl sm:text-3xl font-bold text-gold-gradient">
             Sufyan Khan
           </p>
         </motion.div>
@@ -129,9 +120,9 @@ export default function EidMessage() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 1.6 }}
         >
-          <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gold/30" />
-          <IslamicStar className="w-4 h-4 text-gold/40" />
-          <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gold/30" />
+          <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gold/50" />
+          <IslamicStar className="w-4 h-4 text-gold/60" />
+          <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gold/50" />
         </motion.div>
       </div>
     </section>

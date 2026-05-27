@@ -27,11 +27,11 @@ export default function Footer() {
           <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-gold/20" />
         </div>
 
-        <p className="text-moonlight/20 text-xs tracking-[0.3em] uppercase">
+        <p className="text-moonlight/50 text-xs font-semibold tracking-[0.3em] uppercase">
           Eid ul Azha Mubarak
         </p>
 
-        <p className="text-moonlight/15 text-xs">
+        <p className="text-moonlight/40 text-xs font-medium">
           Crafted with love by Sufyan Khan
         </p>
       </motion.div>
